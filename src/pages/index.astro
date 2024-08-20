@@ -1,9 +1,34 @@
 ---
+import BlogPost from "../components/BlogPost.astro";
 import MainLayout from "../layouts/MainLayout.astro";
 
+const posts = await Astro.glob('./posts/*.md');
 
 ---
 
 <MainLayout>
-	<h1>Welcome to Astro</h1>
+
+	<section class="bg-white dark:bg-gray-900">
+		<div class="container px-6 mx-auto">
+			<h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">From the blog</h1>
+
+			<div class="grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2">
+				
+				{
+					posts.map(post => (
+						<BlogPost 
+							title={post.frontmatter.title}
+							description={post.frontmatter.description}
+							image={post.frontmatter.image}
+							date={post.frontmatter.date}
+							url={post.url!}
+						/>
+					))
+				}
+
+			</div>
+		</div>
+	</section>
+
+
 </MainLayout>
