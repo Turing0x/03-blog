@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 
 import MainLayout from "../layouts/MainLayout.astro";
 import TypedBlogPost from "../components/TypedBlogPost.astro";
+import NavBar from "../components/NavBar.astro";
 
 const allPosts = await getCollection('post');
 
@@ -14,6 +15,8 @@ const allPosts = await getCollection('post');
 	<section class="bg-white dark:bg-gray-900">
 		<div class="container px-6 mx-auto">
 			<h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">From the blog</h1>
+
+  		<NavBar />
 
 			<div class="grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2">
 				{ allPosts.map(post => (<TypedBlogPost post={post} /> )) }

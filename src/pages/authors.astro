@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import MainLayout from '../layouts/MainLayout.astro';
+
+import { getCollection } from "astro:content";
+
+const allAuthors = await getCollection('author');
+
+---
+
+<MainLayout title="Autores">
+  <section class="bg-gray-900">
+    <div class="container px-6 py-10 mx-auto">
+      <h1 class="text-3xl font-semibold capitalize lg:text-4xl text-white">
+        Autores
+      </h1>
+
+      <div class="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
+        {allAuthors.map((author) => (
+          <div class="flex flex-col gap-2 lg:mx-6">
+
+            <Image
+              class="object-cover w-full h-56 rounded-lg lg:w-64"
+              src={author.data.avatar}
+              alt={author.data.name}
+              width={500}
+              height={500}
+            />
+            <a
+              class="hover:text-blue-500 hover:underline"
+              href={`/author/${author.id}`}>{author.data.name}</a>
+
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</MainLayout>

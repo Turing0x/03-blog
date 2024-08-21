@@ -2,7 +2,10 @@
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import BlogLayout from "../../layouts/BlogLayout.astro";
+
 import { Image } from "astro:assets";
+import { getEntry } from "astro:content";
+import { Formatter } from "../../utils/formatDate";
 
 export const getStaticPaths = ( async() => {
 
@@ -16,10 +19,22 @@ export const getStaticPaths = ( async() => {
 
 const post = Astro.props.post;
 const { Content, headings } = await post.render();
+const author = await getEntry('author', post.data.author.id);
 
 ---
 
 <BlogLayout title={post.data.title}>
+
+  <div class="flex flex-row mt-2 text-md text-gray-400 mb-0">
+    <Image src={author.data.avatar} alt={author.data.name} width={50} height={50} class="rounded-full" />
+
+    <div class="flex flex-col ml-5">
+      <a href=`/blog/${author.id}`>{author.data.name}</a>
+      <span class="text-xs text-gray-200">
+        {Formatter.formatDate(post.data.date)}
+      </span>
+    </div>
+  </div>
 
   <Image
     src={post.data.image}
